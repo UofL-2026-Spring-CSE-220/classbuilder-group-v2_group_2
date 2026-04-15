@@ -14,19 +14,20 @@ public class DateValidator {
         return getDaysInMonth(month.getMonthNumber(), year);
     }
     public static int getDaysInMonth(int month, int year) {
-        switch (month) {
-            case 1: // January
-            case 3: // March
-            case 5: // May
-            case 7: // July
-            case 8: // August
-            case 10: // October
-            case 12: // December
-                return 31;
-            //alot missing here
-            default:
-                throw new IllegalArgumentException("Invalid month number: " + month);
-        }
+        return switch (month) {
+            case 1,3,5,7,8,10,12 -> 31;
+            case 4,6,9,11 -> 30;
+            case 2 -> {
+                if (isLeapYear(year)) {
+                    yield 29;
+                } else {
+                    yield 28;
+                }
+            }
+            default -> throw new IllegalArgumentException("Invalid monthd number: " + month);
+        };
+
+
     }
 
     public static boolean isValidDate(int day, int month, int year) {

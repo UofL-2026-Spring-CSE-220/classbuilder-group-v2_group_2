@@ -1,4 +1,5 @@
 package edu.coolschool.utilities.dateutils;
+import  java.time.Year;
 
 public enum MonthsEnum {
     JANUARY(1),
@@ -23,6 +24,23 @@ public enum MonthsEnum {
     public int getMonthNumber() {
         return monthNumber;
     }
+
+    public static int getMonthLength(int  month) {
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("Invalid month number");
+        }
+        if ( month == 2) {
+            throw  new IllegalArgumentException(" Need year for leap Year");
+        }
+        if(month == 4 || month == 6 || month == 9 || month == 11) {
+            return 30;
+        }
+        else{
+            return 31;
+        }
+    }
+
+
 
     public static MonthsEnum fromMonthNumber(int monthNumber) {
         for (MonthsEnum month : MonthsEnum.values()) {
