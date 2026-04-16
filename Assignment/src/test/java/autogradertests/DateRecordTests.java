@@ -60,4 +60,37 @@ public class DateRecordTests {
         assertEquals(direct.toString(), built.toString());
         assertEquals(direct.toString(DateFormatOptionsEnum.YYYY_MM_DD), built.toString(DateFormatOptionsEnum.YYYY_MM_DD));
     }
+
+    @Test
+    @DisplayName("accepts dates between 01/01/1900 and 12/31/2100")
+    public void acceptsDateBoundaries() {
+        DateRecord min = new DateRecord(1, MonthsEnum.JANUARY, 1900);
+        DateRecord max = new DateRecord(31, MonthsEnum.DECEMBER, 2100);
+
+        assertEquals("01/01/1900", min.toString());
+        assertEquals("12/31/2100", max.toString());
+    }
+
+    @Test
+    @DisplayName("Earliest Accept Date")
+    public void rejectsDatesBeforeMin() {
+        for (int year = 1; year < 1900; year++) {
+            int testYear = year;
+            assertThrows(IllegalArgumentException.class, () ->
+                            new DateRecord(1, MonthsEnum.JANUARY, testYear),
+                    "Failed for year: " + testYear
+            );
+        }
+    }
+
+    @Test
+    @DisplayName("Latest Accept Date")
+    public void rejectsDatesAfterMax() {
+        for (int year = 2101; year <= 2500; year++) {
+            int testYear = year;
+            assertThrows(IllegalArgumentException.class, () -> new DateRecord(31, MonthsEnum.DECEMBER, testYear),
+                    "Failed for year: " + testYear
+            );
+        }
+    }
 }
