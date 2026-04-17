@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DateRecordTests {
 
@@ -59,5 +60,28 @@ public class DateRecordTests {
         DateRecord direct = new DateRecord(15, 3, 2024);
         assertEquals(direct.toString(), built.toString());
         assertEquals(direct.toString(DateFormatOptionsEnum.YYYY_MM_DD), built.toString(DateFormatOptionsEnum.YYYY_MM_DD));
+    }
+    // new test to check nulls in daterecord
+    @Test
+    @DisplayName("Builder handles missing values by delegating to constructor validation")
+    public void builderMissingValuesValidatedByConstructor() {
+
+        DateRecord.Builder invalidBuilder = new DateRecord.Builder()
+                .setMonth(MonthsEnum.JANUARY)
+                .setYear(2024);
+
+        // This will fail when build() calls constructor with day = 0
+        assertThrows(IllegalArgumentException.class, invalidBuilder::build);
+    }
+
+    // test completeness of switch expression
+    @Test
+    @DisplayName("All DateFormatOptionsEnum handled")
+    void testAllFormats() {
+        DateRecord date = new DateRecord(5, 3, 2024);
+        assertDoesNotThrow(() -> date.toString(DateFormatOptionsEnum.DD_MM_YYYY));
+        assertDoesNotThrow(() -> date.toString(DateFormatOptionsEnum.MM_DD_YYYY));
+        assertDoesNotThrow(() -> date.toString(DateFormatOptionsEnum.YYYY_MM_DD));
+        assertDoesNotThrow(() -> date.toString(DateFormatOptionsEnum.MONTH_DD_YYYY));
     }
 }
