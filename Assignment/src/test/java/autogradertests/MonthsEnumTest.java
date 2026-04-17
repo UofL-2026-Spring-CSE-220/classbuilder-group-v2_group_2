@@ -56,4 +56,40 @@ public class MonthsEnumTest {
         assertThrows(IllegalArgumentException.class, () -> MonthsEnum.fromMonthNumber(0));
         assertThrows(IllegalArgumentException.class, () -> MonthsEnum.fromMonthNumber(13));
     }
+    @Test
+    @DisplayName("getMonthLength returns correct days for 30/31 day months")
+    void getMonthLengthReturnsCorrectDays() {
+        assertEquals(30, MonthsEnum.getMonthLength(4));  // April
+        assertEquals(30, MonthsEnum.getMonthLength(6));  // June
+        assertEquals(30, MonthsEnum.getMonthLength(9));  // September
+        assertEquals(30, MonthsEnum.getMonthLength(11)); // November
+        assertEquals(31, MonthsEnum.getMonthLength(1));  // January
+        assertEquals(31, MonthsEnum.getMonthLength(7)); // July
+        assertEquals(31, MonthsEnum.getMonthLength(3));  // March
+        assertEquals(31, MonthsEnum.getMonthLength(5)); // May
+        assertEquals(31, MonthsEnum.getMonthLength(8));  // August
+        assertEquals(31, MonthsEnum.getMonthLength(10)); // October
+        assertEquals(31, MonthsEnum.getMonthLength(12));  // December
+
+
+    }
+
+    // ensure number and month lineup (for insurance)
+    @Test
+    @DisplayName("getMonthNumber returns correct values")
+    void getMonthNumberReturnsCorrectValues() {
+        assertEquals(1, MonthsEnum.JANUARY.getMonthNumber());
+        assertEquals(2, MonthsEnum.FEBRUARY.getMonthNumber());
+        assertEquals(3, MonthsEnum.MARCH.getMonthNumber());
+        assertEquals(4, MonthsEnum.APRIL.getMonthNumber());
+        assertEquals(5, MonthsEnum.MAY.getMonthNumber());
+        assertEquals(6, MonthsEnum.JUNE.getMonthNumber());
+        assertEquals(7, MonthsEnum.JULY.getMonthNumber());
+        assertEquals(8, MonthsEnum.AUGUST.getMonthNumber());
+        assertEquals(9, MonthsEnum.SEPTEMBER.getMonthNumber());
+        assertEquals(10, MonthsEnum.OCTOBER.getMonthNumber());
+        assertEquals(11, MonthsEnum.NOVEMBER.getMonthNumber());
+        assertEquals(12, MonthsEnum.DECEMBER.getMonthNumber());
+    }
+
 }

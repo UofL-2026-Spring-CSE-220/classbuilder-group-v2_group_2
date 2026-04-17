@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DateRecordTests {
 
@@ -93,4 +94,19 @@ public class DateRecordTests {
             );
         }
     }
+    // new test to check nulls in daterecord
+
+    @Test
+    @DisplayName("Builder handles missing values by delegating to constructor validation")
+    public void builderMissingValuesValidatedByConstructor() {
+
+        DateRecord.Builder invalidBuilder = new DateRecord.Builder()
+                .setMonth(MonthsEnum.JANUARY)
+                .setYear(2024);
+
+        // This will fail when build() calls constructor with day = 0
+        assertThrows(IllegalArgumentException.class, invalidBuilder::build);
+    }
+
 }
+
