@@ -130,4 +130,51 @@ public class PersonInfoTests {
 
         assertEquals(expected, person.toString(1));
     }
+
+
+    // New Tests
+
+    @Test
+    @DisplayName("Blank firstName throws IllegalArgumentException")
+    public void blankFirstNameThrowsException() {
+        DateRecord dob = new DateRecord.Builder()
+                .setDay(15)
+                .setMonth(MonthsEnum.MARCH)
+                .setYear(1990)
+                .build();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new PersonInfo.Builder()
+                    .setFirstName("   ")
+                    .setLastName("Smith")
+                    .setDateOfBirth(dob)
+                    .setCountryOfResidence(CountriesEnum.US)
+                    .setCountryOfBirth(CountriesEnum.GB)
+                    .build();
+        });
+    }
+
+    @Test
+    @DisplayName("Null middleName is allowed")
+    public void nullMiddleNameAllowed() {
+        DateRecord dob = new DateRecord.Builder()
+                .setDay(15)
+                .setMonth(MonthsEnum.MARCH)
+                .setYear(1990)
+                .build();
+
+        PersonInfo person = new PersonInfo.Builder()
+                .setFirstName("Alice")
+                .setLastName("Smith")
+                .setMiddleName(null)
+                .setDateOfBirth(dob)
+                .setCountryOfResidence(CountriesEnum.US)
+                .setCountryOfBirth(CountriesEnum.GB)
+                .build();
+
+        assertNull(person.middleName());
+    }
 }
+
+
+
